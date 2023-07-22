@@ -2,9 +2,11 @@ import React from "react";
 import StyledBurgerLink from "./StyledBurgerLink";
 import NavBarLogo from "../NavBar/NavBarLogo";
 import { XMarkIcon } from '@heroicons/react/24/solid'
-// x-mark
-const BurgerMenu = ({ label = "burger_menu" }) => {
+import { FormattedMessage } from "react-intl";
+import useLogout from "../../hooks/useLogout";
 
+const BurgerMenu = ({ label = "burger_menu", isLoggedIn }) => {
+    const handleLogout = useLogout();
     return (
         <div className={`${label} burger_menu_hidden w-80 h-full z-50 fixed right-0 top-0 bg-black/95 flex flex-col hidden`}>
             <div className="flex flex-row flex-nowrap place-content-between">
@@ -12,14 +14,21 @@ const BurgerMenu = ({ label = "burger_menu" }) => {
                     link='/'
                     src='/assets/img/rr-logo.svg'
                     label='BearTeddy.fun'
+                    modifyStyle="text-white"
                 />
                 <button >
                     <XMarkIcon className="h-10 w-10 pt-1 text-blue-500" />
                 </button>
             </div>
             <hr className="my-2" />
-            <StyledBurgerLink to='/autors'>Autors</StyledBurgerLink>
-            <StyledBurgerLink to='/login'>Login</StyledBurgerLink>
+            <StyledBurgerLink to='/autors'><FormattedMessage id='autors' /></StyledBurgerLink>
+            <StyledBurgerLink to='/auth/login'><FormattedMessage id='login' /></StyledBurgerLink>
+            {isLoggedIn && <>
+                <span className="pl-4 text-slate-700"><FormattedMessage id='personal_area' /></span>
+                <StyledBurgerLink show="pl-8" to='/personalArea'><FormattedMessage id='personal_data' /></StyledBurgerLink>
+                <StyledBurgerLink onClick={handleLogout} show="pl-8" ><FormattedMessage id='logout' /></StyledBurgerLink>
+            </>
+            }
         </div>
     )
 };

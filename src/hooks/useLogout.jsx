@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
-import { logOut } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
+import { logOut } from "../store/users";
 const useLogout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleLoguot = () =>
         dispatch(logOut())
-            .unwrap()
+            // .unwrap()
             .then(() => {
                 navigate("/");
             })

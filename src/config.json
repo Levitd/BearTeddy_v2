@@ -1,0 +1,15 @@
+{
+    "apiEndPoint":"https://bearteddy-263cb-default-rtdb.europe-west1.firebasedatabase.app/",
+    "isFireBase":true,
+    "firebaseConfig" :
+    {
+        "apiKey": "AIzaSyAZjlm9L96oMMpuJJ7EqjyED7qjqevXOrE",
+        "authDomain": "bearteddy-263cb.firebaseapp.com",
+        "databaseURL": "https://bearteddy-263cb-default-rtdb.europe-west1.firebasedatabase.app",
+        "projectId": "bearteddy-263cb",
+        "storageBucket": "bearteddy-263cb.appspot.com",
+        "messagingSenderId": "584100369483",
+        "appId": "1:584100369483:web:ffa642f01773d3892529ce",
+        "measurementId": "G-G99RGP5FSX"
+    }
+}

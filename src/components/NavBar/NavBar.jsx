@@ -1,9 +1,9 @@
 import React from "react";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 // import { isLoggedInSelector } from "../../store/authSlice";
 import StyledNavLink from "../StyledNavLink";
-import NavBarDropdown from "./NavBarDropdown";
+// import NavBarDropdown from "./NavBarDropdown";
 import NavBarWrapper from "./NavBarWrapper";
 import NavBarLinkList from "./NavBarLinkList";
 import NavBarLogo from "./NavBarLogo";
@@ -11,9 +11,13 @@ import NavBarSelectLang from "./NavBarSelectLang";
 import { FormattedMessage } from "react-intl";
 import { Bars3Icon } from '@heroicons/react/24/solid'
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import { getIsLoggedIn } from "../../store/users";
+import useLogout from "../../hooks/useLogout";
 
 const NavBar = ({ handleChange }) => {
-    const isLoggedIn = false;// useSelector(isLoggedInSelector());
+    const isLoggedIn = useSelector(getIsLoggedIn());
+    const handleLogout = useLogout();
+
     const handleClickBurgerMenu = ({ target }) => {
         if (target && (target.nodeName === "A" || target.nodeName === "IMG" || target.nodeName === "svg" || target.nodeName === "SPAN" || target.nodeName === "path")) {
             const burgerMenu = document.querySelector(".burger_menu");
@@ -22,7 +26,7 @@ const NavBar = ({ handleChange }) => {
             }, burgerMenu.classList.contains("burger_menu_show") ? 180 : 0);
             burgerMenu.classList.toggle('burger_menu_show');
             burgerMenu.classList.toggle('burger_menu_hidden');
-            // burgerMenu.classList.toggle('flex');
+
             if (burgerMenu.classList.contains("burger_menu_show")) {
                 burgerMenu.addEventListener("click", handleClickBurgerMenu);
             } else {
@@ -32,7 +36,7 @@ const NavBar = ({ handleChange }) => {
     }
     return (
         <>
-            <BurgerMenu handleClose={handleClickBurgerMenu} />
+            <BurgerMenu handleClose={handleClickBurgerMenu} isLoggedIn={isLoggedIn} />
             <NavBarWrapper>
                 <NavBarLogo
                     link='/'
@@ -46,9 +50,10 @@ const NavBar = ({ handleChange }) => {
 
                     {isLoggedIn ? (
                         <>
-                            <StyledNavLink to='/'>Something</StyledNavLink>
-                            <StyledNavLink to='/posts' end>Posts</StyledNavLink>
-                            <NavBarDropdown />
+                            <StyledNavLink to='/personalArea' show="hidden lg:block"><FormattedMessage id='personal_area' /></StyledNavLink>
+                            <StyledNavLink to='/' styleType='button' show="hidden lg:block" onClick={handleLogout}><FormattedMessage id='logout' /> </StyledNavLink>
+                            {/* <StyledNavLink to='/posts' end>Posts</StyledNavLink> */}
+                            {/* <NavBarDropdown /> */}
                         </>
                     ) : (
                         <StyledNavLink to='/auth/login' styleType='button' show="hidden lg:block">

@@ -1,13 +1,14 @@
-import authReducer from "./authSlice";
+// import authReducer from "./authSlice";
 import messageReducer from "./messageSlice";
-import postsReducer from "./postsSlice";
+import usersReducer from "./users";
+// import postsReducer from "./postsSlice";
 
 const { combineReducers, configureStore } = require("@reduxjs/toolkit");
 
 const rootReducer = combineReducers({
-    auth: authReducer,
+    // auth: authReducer,
     message: messageReducer,
-    posts: postsReducer,
+    users: usersReducer
 });
 
 export function createStore() {

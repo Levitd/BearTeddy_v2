@@ -1,38 +1,31 @@
-import httpService from "./http.service";
-const API_URL = "/api/auth/";
-const signUp = (username, email, password) => {
-    return httpService
-        .post(API_URL + "signup", {
-            username,
-            email,
-            password,
-        })
-        .then((response) => {
-            if (response.data.accessToken) {
-                localStorage.setItem("user", JSON.stringify(response.data));
-            }
-            return response;
-        });
-};
-const login = (username, password) => {
-    return httpService
-        .post(API_URL + "login", {
-            username,
-            password,
-        })
-        .then((response) => {
-            if (response.data.accessToken) {
-                localStorage.setItem("user", JSON.stringify(response.data));
-            }
-            return response;
-        });
-};
-const logout = () => {
-    localStorage.removeItem("user");
-};
+import axios from "axios";
+import localStorageService from "./localStorage.service";
+
+const httpAuth = axios.create({
+    baseURL: "https://identitytoolkit.googleapis.com/v1/",
+    params: { key: process.env.REACT_APP_FIREBASE_KEY }
+});
+
 const authService = {
-    signUp,
-    login,
-    logout,
+    register: async ({ email, password }) => {
+        const { data } = await httpAuth.post(`accounts:signUp`, {
+            email, password, returnSecureToken: true
+        });
+        return data;
+    },
+    login: async ({ email, password }) => {
+        const { data } = await httpAuth.post(`accounts:signInWithPassword`, {
+            email, password, returnSecureToken: true
+        });
+        return data;
+    },
+    refresh: async () => {
+        const { data } = await httpAuth.post("token", {
+            grant_type: "refresh_token",
+            refresh_token: localStorageService.getRefreshToken()
+        });
+        return data;
+    }
 };
+
 export default authService;
