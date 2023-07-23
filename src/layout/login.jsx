@@ -20,10 +20,13 @@ const Login = ({ user }) => {
         <div className="max-w-lg my-5 px-5 p-5 mx-auto bg-state-300 rounded border-2 shadow-md">
             {formType === "register"
                 ? <>
-                    <div className="mb-4"><FormattedMessage id='registration' /></div>
+                    <div className="mb-4 text-neutral-900 text-3xl"><FormattedMessage id='registration' /></div>
 
                     <RegisterForm user={user} />
-                    <p className="mt-2"><FormattedMessage id='already_registered' />? <button type="button" className="btn btn-link" onClick={togleFormType}><FormattedMessage id='login' /></button></p>
+                    <div className="flex flex-row gap-1 items-end">
+                        <MessageP addStyle="neutral" label="already_registered" />
+                        <ButtonField colorButton="btn-link" type="link" label="login" onClick={togleFormType} />
+                    </div>
                 </>
                 : <>
                     <div className="mb-4 text-neutral-900 text-3xl"><FormattedMessage id='login' /></div>

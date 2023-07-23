@@ -5,16 +5,21 @@ import FormComponent, { TextField, RadioField, CheckBoxField, GrouplButton, Butt
 import { FormattedMessage, useIntl } from "react-intl";
 import * as utils from "../../utils/util";
 // import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import MessageP from "../common/form/mesageP";
+import { useLocation } from "react-router-dom";
+import { signUp } from "../../store/users";
+// import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/solid'
 // import { signUp } from "../../store/authSlice";
 // import { getAuthErrors, signUp } from "../../store/users";
 
 // https://t.me/Blackshadow_rus
 
 const RegisterForm = ({ user, appFB }) => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const loginError = "";// useSelector(getAuthErrors());
     const today = utils.getDate("today");
+    const location = useLocation();
     // console.log(today);
     const intl = useIntl();
 
@@ -55,7 +60,7 @@ const RegisterForm = ({ user, appFB }) => {
             },
             isCapitalSymbol: { message: <FormattedMessage id='password_must_contain_at_least_1_capital_letter' /> },
             isContainDogit: { message: <FormattedMessage id='password_must_contain_at_least_1_number' /> },
-            min: { message: <FormattedMessage id='password_must_be_at_least_8_characters' />, value: 7 }
+            min: { message: <FormattedMessage id='password_must_be_at_least_8_characters' />, value: 8 }
         },
         licence: {
             isRequired: { message: <FormattedMessage id='registration_is_not_possible_without_accepting_the_license_agreement' /> }
@@ -76,8 +81,12 @@ const RegisterForm = ({ user, appFB }) => {
     const handleSubmit = async (data) => {
         // console.log('data', data.email);
         // const hasEmail = utils.hasEmail(data.email);
-
-        // dispatch(signUp(data, "/successful_registration"));
+        const sexData = document.getElementsByName("sex")[0].value;
+        data = { ...data, sex: sexData };
+        const redirect = location.state
+            ? location.state.referrer.pathname
+            : "/successful_registration";
+        dispatch(signUp(data, redirect));
 
         // try {
         // await signUp(data);
@@ -142,28 +151,29 @@ const RegisterForm = ({ user, appFB }) => {
             />
             <RadioField
                 options={[
-                    { name: <FormattedMessage id='male' />, value: "male" },
-                    { name: <FormattedMessage id='female' />, value: "female" }
+                    { name: <FormattedMessage id='male' />, value: "male", description: "" },
+                    { name: <FormattedMessage id='female' />, value: "female", description: "" }
                 ]}
                 // value={data.sex}
                 label={<FormattedMessage id='choose_your_gender' />}
                 name="sex"
+                valueDefault={defaultData.sex}
             />
             <TextField
                 label={<FormattedMessage id='your_telegram_profile' />}
-                labelLeft={<i className="bi bi-telegram icon-size-big"></i>}
+                // labelLeft={<ChatBubbleBottomCenterTextIcon className="h-6 w-6" />}
                 type="text"
                 name="telegram"
             />
             <CheckBoxField
                 name="licence"
             >
-                <FormattedMessage id='accept' /> <a href="/"><FormattedMessage id='license_agreement' /></a>
+                <FormattedMessage id='accept' /> <a className="text-lg underline" href="/"><FormattedMessage id='license_agreement' /></a>
             </CheckBoxField>
             <GrouplButton>
                 <ButtonField name="submit" type="submit" label="registration" />
             </GrouplButton>
-            {loginError && <p type="none" name="error" className="text-danger">{loginError}</p>}
+            {loginError && <MessageP addStyle={"pink"} label={loginError} />}
         </FormComponent>
     </>
     );

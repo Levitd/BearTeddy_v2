@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import * as utils from "../../utils/util";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import FormComponent, {
     TextField,
     RadioField,
     SubmitCancelButton,
-    ButtonField,
-    GrouplButton,
-    MessageWindow
+    ButtonField
 } from "../common/form";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { apdateUser, getCurrentUserData, getIsLoggedIn, logOut } from "../../store/users";
+import { apdateUser, getCurrentUserData, getIsLoggedIn } from "../../store/users";
 // import history from "../../utils/history";
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const PersonalArea = () => {
     const intl = useIntl();
     const today = utils.getDate("today");
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [isLoading, setLoading] = useState(true);
     const dispatch = useDispatch();
     let savedData;
@@ -29,11 +27,10 @@ const PersonalArea = () => {
     // const userActive = auth.currentUser;
     useEffect(() => {
         if (!isLoggedIn) {
-            // navigate("../not-registered");
-            // history.push("../not-registered");
+            navigate("/not-registered");
         }
         setLoading(false);
-    }, [isLoggedIn]);
+    }, [isLoggedIn, navigate]);
     const currentUser = useSelector(getCurrentUserData());
 
     if (!isLoading) {
@@ -71,14 +68,12 @@ const PersonalArea = () => {
     };
 
     const handleSubmit = (data) => {
+        const sexData = document.getElementsByName("sex")[0].value;
+        data = { ...data, sex: sexData };
         dispatch(apdateUser(data));
         toast.info(intl.messages["data_saved"]);
     };
 
-    const handleLogout = (e) => {
-        dispatch(logOut());
-        // history.push("/");
-    };
     const recalculation = (data) => {
         // const [age, letter] = utils.getFullYearOfBirth(data.dateOfBirth)
         // if (age && letter) {
@@ -123,11 +118,12 @@ const PersonalArea = () => {
                             /> */}
                             <RadioField
                                 options={[
-                                    { name: <FormattedMessage id='male' />, value: "male" },
-                                    { name: <FormattedMessage id='female' />, value: "female" }
+                                    { name: <FormattedMessage id='male' />, value: "male", description: "" },
+                                    { name: <FormattedMessage id='female' />, value: "female", description: "" }
                                 ]}
                                 name="sex"
                                 label={<FormattedMessage id='choose_your_gender' />}
+                                valueDefault={savedData.sex}
                             />
                             <TextField
                                 label={<FormattedMessage id='your_telegram_profile' />}
@@ -139,11 +135,7 @@ const PersonalArea = () => {
                                 <ButtonField type="submit" name="submit" label="save_changes" />
                                 <ButtonField type="cancel" name="cancel" label="cancel_changes" />
                             </SubmitCancelButton>
-                            <MessageWindow label="data_saved" name="message" type="message" />
-                            <GrouplButton>
-                                <ButtonField addClass={"mt-2"} type="button" name="logout" label="logout"
-                                    onClick={handleLogout} colorButton="btn-danger" />
-                            </GrouplButton>
+                            {/* <MessageWindow label="data_saved" name="message" type="message" /> */}
                         </FormComponent>
                     </div>
                 </div>

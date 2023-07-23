@@ -6,6 +6,7 @@ import { LOCALES } from "../src/i18n/locales";
 import { messages } from "../src/i18n/messages";
 //Message
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 //pages
 import MainPage from "./layout/mainPage";
 import AutorsPage from "./layout/autorsPage";
