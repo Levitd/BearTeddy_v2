@@ -3,19 +3,22 @@ import { getIsLoggedIn, getUsersLoadingStatus, loadUserById } from "../store/use
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import localStorageService from "../services/localStorage.service";
-// import { loadQualitiesList } from "../../../store/qualities";
-// import { loadProfessionsList } from "../../../store/professions";
+import { loadShopByIdUser } from "../store/shops";
+import { getProductIsLoading, loadProducts } from "../store/products";
+// import { loadProducts } from "../store/products";
 
 const AppLoader = ({ children }) => {
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(getIsLoggedIn());
     const userStatusLoading = useSelector(getUsersLoadingStatus());
+    const isLoadingProducts = useSelector(getProductIsLoading());
+    if (!isLoadingProducts) dispatch(loadProducts());
     useEffect(() => {
-        // dispatch(loadQualitiesList());
-        // dispatch(loadProfessionsList());
         if (isLoggedIn) {
-            const userId = localStorageService.getUserId(); // dispatch(getCurrentUserId());
+            const userId = localStorageService.getUserId();
             dispatch(loadUserById(userId));
+            dispatch(loadShopByIdUser(userId));
+
         }
     }, [isLoggedIn, dispatch]);
     if (userStatusLoading) return "Loading...";

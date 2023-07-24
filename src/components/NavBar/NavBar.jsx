@@ -1,22 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-
-// import { isLoggedInSelector } from "../../store/authSlice";
 import StyledNavLink from "../StyledNavLink";
-// import NavBarDropdown from "./NavBarDropdown";
+import NavBarDropdown from "./NavBarDropdown";
 import NavBarWrapper from "./NavBarWrapper";
 import NavBarLinkList from "./NavBarLinkList";
 import NavBarLogo from "./NavBarLogo";
 import NavBarSelectLang from "./NavBarSelectLang";
 import { FormattedMessage } from "react-intl";
-import { Bars3Icon } from '@heroicons/react/24/solid'
+import { Bars3Icon, MagnifyingGlassCircleIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid'
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
-import { getIsLoggedIn } from "../../store/users";
+// import { getIsLoggedIn } from "../../store/users";
 import useLogout from "../../hooks/useLogout";
+import { useLocation } from "react-router-dom";
 
-const NavBar = ({ handleChange }) => {
-    const isLoggedIn = useSelector(getIsLoggedIn());
+const NavBar = ({ handleChange, shop, isLoggedIn }) => {
+    const currentPage = useLocation().pathname;
+    // const isLoggedIn = useSelector(getIsLoggedIn());
     const handleLogout = useLogout();
+    const [activeSearch, setActiveSearch] = useState(false);
 
     const handleClickBurgerMenu = ({ target }) => {
         if (target && (target.nodeName === "A" || target.nodeName === "IMG" || target.nodeName === "svg" || target.nodeName === "SPAN" || target.nodeName === "path")) {
@@ -33,10 +34,28 @@ const NavBar = ({ handleChange }) => {
                 burgerMenu.removeEventListener("click", handleClickBurgerMenu);
             }
         }
-    }
+    };
+    const handleClickSearchLine = ({ target }) => {
+        const serchLineEl = document.querySelector(".search_line");
+        serchLineEl.classList.toggle("hidden");
+        serchLineEl.classList.toggle("flex");
+        setActiveSearch((prevState => !prevState));
+        const searchButtoninNavBarEl = document.querySelector("#searchButtoninNavBar").firstChild;
+        searchButtoninNavBarEl.classList.toggle("text-blue-500");
+        searchButtoninNavBarEl.classList.toggle("text-blue-800");
+    };
+    const handleClickFiltersLine = () => {
+        const serchLineEl = document.querySelector(".filters");
+        serchLineEl.classList.toggle("hidden");
+        serchLineEl.classList.toggle("flex");
+        setActiveSearch((prevState => !prevState));
+        const searchButtoninNavBarEl = document.querySelector("#filtersButtoninNavBar").firstChild;
+        searchButtoninNavBarEl.classList.toggle("text-blue-500");
+        searchButtoninNavBarEl.classList.toggle("text-blue-800");
+    };
     return (
         <>
-            <BurgerMenu handleClose={handleClickBurgerMenu} isLoggedIn={isLoggedIn} />
+            <BurgerMenu handleClose={handleClickBurgerMenu} isLoggedIn={isLoggedIn} shop={shop} />
             <NavBarWrapper>
                 <NavBarLogo
                     link='/'
@@ -47,13 +66,17 @@ const NavBar = ({ handleChange }) => {
                 <NavBarLinkList>
                     <StyledNavLink to='/autors' show="hidden lg:block"><FormattedMessage id='autors' /></StyledNavLink>
                     <button onClick={handleClickBurgerMenu} className="lg:hidden"><Bars3Icon className="h-6 w-6 text-blue-500" /></button>
+                    {currentPage === "/" &&
+                        <>
+                            <button onClick={handleClickSearchLine} id="searchButtoninNavBar" className="lg:hidden"><MagnifyingGlassCircleIcon className="h-6 w-6 text-blue-500" /></button>
+                            <button onClick={handleClickFiltersLine} id="filtersButtoninNavBar" className="lg:hidden"><AdjustmentsHorizontalIcon className="h-6 w-6 text-blue-500" /></button>
+                        </>
+                    }
 
                     {isLoggedIn ? (
                         <>
-                            <StyledNavLink to='/personalArea' show="hidden lg:block"><FormattedMessage id='personal_area' /></StyledNavLink>
+                            <NavBarDropdown shop={shop} />
                             <StyledNavLink to='/' styleType='button' show="hidden lg:block" onClick={handleLogout}><FormattedMessage id='logout' /> </StyledNavLink>
-                            {/* <StyledNavLink to='/posts' end>Posts</StyledNavLink> */}
-                            {/* <NavBarDropdown /> */}
                         </>
                     ) : (
                         <StyledNavLink to='/auth/login' styleType='button' show="hidden lg:block">

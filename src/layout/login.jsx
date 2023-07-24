@@ -5,6 +5,8 @@ import RegisterForm from "../components/ui/registerForm";
 import { FormattedMessage } from "react-intl";
 import MessageP from "../components/common/form/mesageP";
 import { ButtonField } from "../components/common/form";
+import Page from "../components/page";
+import Title from "../components/title";
 // import { activeLink } from './utils/utils_dom';
 
 // <FormattedMessage id='login_or_register' />
@@ -17,10 +19,10 @@ const Login = ({ user }) => {
         setFormType(prevState => prevState === "register" ? "login" : "register");
     };
     return (
-        <div className="max-w-lg my-5 px-5 p-5 mx-auto bg-state-300 rounded border-2 shadow-md">
+        <Page widthScreen="max-w-lg">
             {formType === "register"
                 ? <>
-                    <div className="mb-4 text-neutral-900 text-3xl"><FormattedMessage id='registration' /></div>
+                    <Title><FormattedMessage id='registration' /></Title>
 
                     <RegisterForm user={user} />
                     <div className="flex flex-row gap-1 items-end">
@@ -29,14 +31,14 @@ const Login = ({ user }) => {
                     </div>
                 </>
                 : <>
-                    <div className="mb-4 text-neutral-900 text-3xl"><FormattedMessage id='login' /></div>
+                    <Title><FormattedMessage id='login' /></Title>
                     <LoginForm user={user} />
                     <div className="flex flex-row gap-1 items-end">
                         <MessageP addStyle="neutral" label="not_registered" />
                         <ButtonField colorButton="btn-link" type="link" label="registration" onClick={togleFormType} />
                     </div>
                 </>}
-        </div>
+        </Page>
     );
 };
 

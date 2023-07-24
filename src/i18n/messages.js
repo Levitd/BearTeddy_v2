@@ -73,7 +73,18 @@ export const messages = {
         of_the_year: `years`,
         // link
         link_is_incorrect: `link is not correct`,
-        your_telegram_profile: `Your telegram profile`
+        your_telegram_profile: `Your telegram profile`,
+        //shop
+        create_shop: `Create a shop`,
+        shop_settings: `Shop settings`,
+        name_shop: `Shop name is required`,
+        name_of_shop: `Name of shop`,
+        url_site_shop: `URL shop`,
+        created_shop: `Shop created`,
+        date_create: `Date created`,
+        about_shop: `About shop`,
+        country: `Country`,
+        country_required: `Country is required`
     },
     [LOCALES.RUSSIAN]: {
         accept: `Принять`,
@@ -146,7 +157,17 @@ export const messages = {
         of_the_year: `года`,
         // link
         link_is_incorrect: `Cсылка не корректна`,
-        your_telegram_profile: `Ваш профиль в телеграмм`
-
+        your_telegram_profile: `Ваш профиль в телеграмм`,
+        //shop
+        create_shop: `Создать магазин`,
+        shop_settings: `Настройки магазина`,
+        name_shop: `Название магазина обязательно для заполнения`,
+        name_of_shop: `Название магазина`,
+        url_site_shop: `URL Адрес магазина`,
+        created_shop: `Магазин создан`,
+        date_create: `Дата создания`,
+        about_shop: `О магазине`,
+        country: `Страна`,
+        country_required: `Страна обязательна для заполнения`
     }
 }

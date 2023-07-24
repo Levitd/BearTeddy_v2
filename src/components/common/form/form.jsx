@@ -58,7 +58,9 @@ const FormComponent = ({
         if (!child) return;
         const childType = typeof child.type;
         // console.log(childType);
+        // console.log(child);
         let config = {};
+        // console.log(child.props, child.props.name, childType);
         if (childType === "object") {
             // console.log(child.props.name);
             if (!child.props.name) {
@@ -68,6 +70,7 @@ const FormComponent = ({
                 );
             }
             // if (child.props.name !== "submit" && child.props.name !== "cancel" && child.props.name !== "submitCancelButton") {
+            // console.log(child.props, child.props.name);
             config = {
                 ...child.props,
                 onChange: handleChange,
@@ -107,6 +110,17 @@ const FormComponent = ({
         }
         if (childType === "function") { //Кнопки пришли в обертке
             let configBut = {};
+            if (child.props.type === "textarea") {
+                // console.log(child.props, child.props.type);
+                config = {
+                    ...child.props,
+                    onChange: handleChange,
+                    value: data[child.props.name] || "",
+                    error: errors[child.props.name],
+                    onKeyDown: handleKeyDown
+                };
+                return React.cloneElement(child, config);
+            }
             if (child.props.children !== "undefined" && typeof child.props.children !== "string") {
                 // console.log(childType, child.props.children);
                 const cloneButtonElement = React.Children.map(child.props.children, (butChild, idx) => {

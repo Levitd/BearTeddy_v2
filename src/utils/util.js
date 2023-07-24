@@ -62,10 +62,14 @@ export function showMessage(strongLabel, label, ColorMessage = "info", time = 30
     }, time);
 };
 export function getDate(date) {
+    let newDate;
     if (date === "today") {
-        const newDate = new Date();
-        return `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart(2, "0")}-${String(newDate.getDate()).padStart(2, "0")}`;
+        newDate = new Date();
+    } else {
+        newDate = new Date(date);
     }
+    return `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart(2, "0")}-${String(newDate.getDate()).padStart(2, "0")}`;
+
 };
 export function maxDateOfToday(date) {
     const today = this.getDate("today");

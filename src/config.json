@@ -1,6 +1,8 @@
 {
     "apiEndPoint":"https://bearteddy-263cb-default-rtdb.europe-west1.firebasedatabase.app/",
     "isFireBase":true,
+    "imgPreviewPath":"/assets/img/products/preview/",
+    "imgProfilePath":"/assets/img/profile/",
     "firebaseConfig" :
     {
         "apiKey": "AIzaSyAZjlm9L96oMMpuJJ7EqjyED7qjqevXOrE",

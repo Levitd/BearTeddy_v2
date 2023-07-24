@@ -17,7 +17,7 @@ const TextField = ({ label, type, name, value, onChange, error, noValid, noLable
                 return "rounded-md ";
             }
         };
-        return addClass() + "peer border mt-1 block w-full px-3 py-2 bg-white text-sm shadow-sm placeholder-slate-400 " + ((noValid) ? "" : (error) ? " border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500" : "border-green-400 focus:ring-1 focus:border-green-500 focus:ring-green-500 focus:ring-1");
+        return addClass() + "peer border mt-1 block w-full px-3 py-2 bg-white text-sm shadow-sm placeholder-slate-400 disabled:border-slate-500 disabled:ring-slate-500 " + ((noValid) ? "" : (error) ? " border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500" : "border-green-400 focus:ring-1 focus:border-green-500 focus:ring-green-500 focus:ring-1");
     };
     const togleShowPassword = (e) => {
         setShowPassword((prevState) => !prevState);

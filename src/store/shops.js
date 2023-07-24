@@ -1,9 +1,10 @@
-import { createAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import ShopService from "../services/shop.service";
+import { generateAuthError } from "../utils/generateAuthError";
 
 const initialState = {
     entities: null,
-    isLoading: true,
+    isLoading: false,
     error: null,
     dataLoaded: false
 };
@@ -12,7 +13,7 @@ const shopsSlice = createSlice({
     name: "shops",
     initialState,
     reducers: {
-        shopsRequested: (state) => {
+        shopRequested: (state) => {
             state.isLoading = true;
         },
         shopCreated: (state, action) => {
@@ -21,23 +22,84 @@ const shopsSlice = createSlice({
             }
             state.entities.push(action.payload);
         },
+        shopReceved: (state, action) => {
+            state.entities = action.payload;
+            state.dataLoaded = true;
+            state.isLoading = false;
+        },
+        shopRequestSuccess: (state) => {
+            state.dataLoaded = true;
+        },
+        shopRequestFiled: (state, action) => {
+            state.error = action.payload;
+            state.isLoading = false;
+        },
+        shopLogOut: (state) => {
+            state.entities = null;
+            state.dataLoaded = false;
+        },
+        shopUpdated: (state, action) => {
+            state.entities = state.entities.map(e => {
+                if (e._id === action.payload._id) {
+                    return action.payload;
+                }
+                return e;
+            });
+        },
+        shopUpdatedFailed: (state, action) => {
+            state.error = action.payload;
+        },
     }
 });
-const { reducer: shopsReducer, actions } = shopsSlice;
-const { shopsRequested } = actions;
+const { reducer: shopReducer, actions } = shopsSlice;
+const { shopRequested, shopCreated, shopReceved, shopRequestFiled, shopLogOut, shopUpdated, shopUpdatedFailed, shopRequestSuccess } = actions;
 
-const shopCreateRequested = createAction("shops/shopCreateRequested");
-const createShopFailed = createAction("shops/createShopFailed");
+// const shopCreateRequested = createAction("shops/shopCreateRequested");
+// const createShopFailed = createAction("shops/createShopFailed");
 
-function createShop(payload) {
-    return async function (dispatch) {
-        dispatch(shopCreateRequested());
-        try {
-            const { content } = await ShopService.create(payload);
+export const createShop = (payload, redirect) => async (dispatch) => {
+    dispatch(shopRequested());
+    try {
+        const { content } = await ShopService.create(payload);
+        if (content) {
+            dispatch(shopRequestSuccess());
             dispatch(shopCreated(content));
-            // history.push("/users");
-        } catch (error) {
-            dispatch(createShopFailed(error.message));
         }
-    };
+    } catch (error) {
+        const { code, message } = error.response.data.error;
+        if (code === 400) {
+            const errorMessage = generateAuthError(message);
+            dispatch(shopRequestFiled(errorMessage));
+        } else {
+            dispatch(shopRequestFiled(error.message));
+        }
+    }
 };
+
+export const updateShop = (payload) => async (dispatch, getState) => {
+    try {
+        const { content } = await ShopService.put(payload);
+        dispatch(shopUpdated(content));
+    } catch (error) {
+        dispatch(shopUpdatedFailed(error.message));
+    }
+};
+
+export const loadShopByIdUser = (id) => async (dispatch, getState) => {
+    dispatch(shopRequested());
+    try {
+        const { content } = await ShopService.getShop(id);
+        dispatch(shopReceved(content));
+    } catch (error) {
+        dispatch(shopRequestFiled(error.message));
+    }
+};
+export const logOutShop = () => (dispatch) => {
+    dispatch(shopLogOut());
+};
+
+export const getCurrentShop = () => (state, dispatch) => dispatch(state).shops.entities;
+export const getShopLoading = () => (state, dispatch) => state.shops.isLoading;
+export const getShopErrors = () => (state) => state.shops.error;
+
+export default shopReducer;

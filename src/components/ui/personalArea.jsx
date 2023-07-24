@@ -11,6 +11,7 @@ import FormComponent, {
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { apdateUser, getCurrentUserData, getIsLoggedIn } from "../../store/users";
+import Title from "../title";
 // import history from "../../utils/history";
 // import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -85,7 +86,7 @@ const PersonalArea = () => {
         // console.log(savedData);
         return (
             <div className="max-w-lg my-5 px-5 p-5 mx-auto bg-state-300 rounded border-2 shadow-md">
-                <h1 className="headPage"><FormattedMessage id='personal_data' /></h1>
+                <Title><FormattedMessage id='personal_data' /></Title>
                 <div className="row">
                     <div
                         className="col-xl-4 col-lg-4 col-md-6 col-sm-8 offset-md-3 offset-sm-2 offset-lg-4 offset-xl-4 p-4 shadow">

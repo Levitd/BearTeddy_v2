@@ -1,27 +1,30 @@
 import React, { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { useSelector } from "react-redux";
-import { getCurrentUser } from "../../store/authSlice";
 import { NavLink } from "react-router-dom";
-import useLogout from "../../hooks/useLogout";
+import { getCurrentUserData } from "../../store/users";
+import { FormattedMessage } from "react-intl";
+import StyledBurgerLink from "../BurgerMenu/StyledBurgerLink";
+import StyledNavLink from "../StyledNavLink";
+// import useLogout from "../../hooks/useLogout";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
-const NavBarDropdown = () => {
-    const user = useSelector(getCurrentUser());
-    const handleLogout = useLogout();
+const NavBarDropdown = ({ shop }) => {
+    const user = useSelector(getCurrentUserData());
+    // const handleLogout = useLogout();
 
     return (
-        <Menu as='div' className='relative border-l-2'>
+        <Menu as='div' className='relative border-l-2 hidden lg:block'>
             <Menu.Button className='flex items-center w-full rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-500 focus:outline-none '>
-                <img
+                {/* <img
                     src={user.avatar}
                     className='inline-block h-6 rounded-full pr-2 w-auto'
                     alt='Logo'
-                />
-                {user.username}
+                /> */}
+                <FormattedMessage id='personal_area' />
                 <ChevronDownIcon
                     className='-mr-1 ml-2 h-5 w-5'
                     aria-hidden='true'
@@ -39,23 +42,14 @@ const NavBarDropdown = () => {
             >
                 <Menu.Items className='origin-top-right absolute right-0 top-8 mt-2 w-56 rounded-md shadow-lg bg-white/40 ring-1 ring-black ring-opacity-5 focus:outline-none'>
                     <div>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <NavLink
-                                    to='/'
-                                    className={classNames(
-                                        active
-                                            ? "bg-blue-100/40 "
-                                            : "text-gray-700",
-                                        "block px-4 py-2.5 text-sm transition-colors duration-200"
-                                    )}
-                                >
-                                    Profile
-                                </NavLink>
-                            )}
-                        </Menu.Item>
-
-                        <Menu.Item>
+                        <StyledNavLink show="pl-8" to='/personalArea'><FormattedMessage id='personal_data' /></StyledNavLink>
+                        {shop &&
+                            <StyledNavLink show="pl-8" to='/myshop'><FormattedMessage id='shop_settings' /></StyledNavLink>
+                        }
+                        {!shop &&
+                            <StyledNavLink show="pl-8" to='/create_myshop'><FormattedMessage id='create_shop' /></StyledNavLink>
+                        }
+                        {/* <Menu.Item>
                             {({ active }) => (
                                 <button
                                     onClick={handleLogout}
@@ -70,7 +64,7 @@ const NavBarDropdown = () => {
                                     Sign out
                                 </button>
                             )}
-                        </Menu.Item>
+                        </Menu.Item> */}
                     </div>
                 </Menu.Items>
             </Transition>

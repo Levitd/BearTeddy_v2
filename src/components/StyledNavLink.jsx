@@ -16,19 +16,21 @@ const StyledNavLink = ({ children, styleType = "default", className, show, ...re
     }
     const showClass = (!show) ? "" : show;
     return (
-        <NavLink
-            className={({ isActive }) =>
-                twMerge(
-                    className || "",
-                    getLinkStyle(styleType),
-                    showClass,
-                    styleType === "default" && isActive && "text-blue-800"
-                )
-            }
-            {...rest}
-        >
-            {children}
-        </NavLink>
+        <div>
+            <NavLink
+                className={({ isActive }) =>
+                    twMerge(
+                        className || "",
+                        getLinkStyle(styleType),
+                        showClass,
+                        styleType === "default" && isActive && "text-blue-800"
+                    )
+                }
+                {...rest}
+            >
+                {children}
+            </NavLink>
+        </div>
     );
 };
 

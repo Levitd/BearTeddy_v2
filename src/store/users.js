@@ -5,6 +5,7 @@ import localStorageService from "../services/localStorage.service";
 // import getRandomInt from "../utils/getRandomInt";
 import history from "../utils/history";
 import { generateAuthError } from "../utils/generateAuthError";
+import { logOutShop } from "./shops";
 
 const initialState = (localStorageService.getAccessToken())
     ? {
@@ -129,7 +130,9 @@ export const signUp = ({ email, password, ...rest }, redirect) => async (dispatc
 };
 
 export const logOut = () => async (dispatch) => {
+    await dispatch(logOutShop());
     await dispatch(userLogOut());
+
     localStorageService.removeAuthData();
     // history.push("/");
 };

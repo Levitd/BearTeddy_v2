@@ -5,7 +5,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 import { FormattedMessage } from "react-intl";
 import useLogout from "../../hooks/useLogout";
 
-const BurgerMenu = ({ label = "burger_menu", isLoggedIn }) => {
+const BurgerMenu = ({ label = "burger_menu", isLoggedIn, shop }) => {
     const handleLogout = useLogout();
     return (
         <div className={`${label} burger_menu_hidden w-80 h-full z-50 fixed right-0 top-0 bg-black/95 flex flex-col hidden`}>
@@ -22,11 +22,19 @@ const BurgerMenu = ({ label = "burger_menu", isLoggedIn }) => {
             </div>
             <hr className="my-2" />
             <StyledBurgerLink to='/autors'><FormattedMessage id='autors' /></StyledBurgerLink>
-            <StyledBurgerLink to='/auth/login'><FormattedMessage id='login' /></StyledBurgerLink>
+            {!isLoggedIn &&
+                <StyledBurgerLink to='/auth/login'><FormattedMessage id='login' /></StyledBurgerLink>
+            }
             {isLoggedIn && <>
                 <span className="pl-4 text-slate-700"><FormattedMessage id='personal_area' /></span>
                 <StyledBurgerLink show="pl-8" to='/personalArea'><FormattedMessage id='personal_data' /></StyledBurgerLink>
-                <StyledBurgerLink onClick={handleLogout} show="pl-8" ><FormattedMessage id='logout' /></StyledBurgerLink>
+                {shop &&
+                    <StyledBurgerLink show="pl-8" to='/myshop'><FormattedMessage id='shop_settings' /></StyledBurgerLink>
+                }
+                {!shop &&
+                    <StyledBurgerLink show="pl-8" to='/create_myshop'><FormattedMessage id='create_shop' /></StyledBurgerLink>
+                }
+                <StyledBurgerLink onClick={handleLogout} show="pl-8" to=""><FormattedMessage id='logout' /></StyledBurgerLink>
             </>
             }
         </div>

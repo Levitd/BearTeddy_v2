@@ -2,7 +2,7 @@ import React from "react";
 
 const Title = ({ label, children }) => {
     return (
-        <div className="py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+        <div className="py-2 px-4 mb-4 bg-white text-blue-700 font-semibold rounded-lg shadow-md text-center">
             {label || children}
         </div>
     )

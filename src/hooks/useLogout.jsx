@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../store/users";
+
 const useLogout = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();

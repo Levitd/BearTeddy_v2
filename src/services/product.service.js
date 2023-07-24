@@ -1,15 +1,15 @@
 import httpService from "./http.service";
 // import localStorageService from "./localStorage.service";
 
-const shopEndpoint = "shop/";
+const productEndpoint = "product/";
 
-const ShopService = {
+const ProductService = {
     get: async () => {
-        const { data } = await httpService.get(shopEndpoint);
+        const { data } = await httpService.get(productEndpoint);
         return data;
     },
     create: async (payload) => {
-        const { data } = await httpService.put(shopEndpoint + payload._id, payload);
+        const { data } = await httpService.put(productEndpoint + payload._id, payload);
         return data;
     },
     // getCurrentUser: async () => {
@@ -17,18 +17,17 @@ const ShopService = {
     //     return data;
     // },
     put: async (payload) => {
-        const { data } = await httpService.put(shopEndpoint + payload._id, payload);
+        const { data } = await httpService.put(productEndpoint + payload._id, payload);
         return data;
     },
-    getShop: async (_id) => {
-        const { data } = await httpService.get(shopEndpoint, {
+    getProducts: async (_id) => {
+        const { data } = await httpService.get(productEndpoint, {
             params: {
-                orderBy: '"user_id"',
-                equalTo: `"${_id}"`
+                orderBy: '"create"'
             }
         });
         return data;
     },
 };
 
-export default ShopService;
+export default ProductService;
