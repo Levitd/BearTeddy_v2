@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 // Language
 import { IntlProvider } from "react-intl";
@@ -16,16 +16,18 @@ import Login from "./layout/login";
 import withRedux from "./hoc/withRedux";
 import AppLoader from "./hoc/appLoader";
 import PersonalArea from "./components/ui/personalArea";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getIsLoggedIn } from "./store/users";
 import withRouter from "./hoc/withRouter";
 import MyShopPage from "./layout/myShopPage";
-import { getCurrentShop, getShopLoading } from "./store/shops";
+import MyProductsPage from "./layout/myProductsPage";
+import { getUserShop } from "./services/localStorage.service";
+import ProductPage from "./layout/productPage";
 
 
 
 function App() {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     function getInitialLocale() {
         const savedLocale = JSON.parse(localStorage.getItem('locale'));
         return savedLocale || LOCALES.ENGLISH;
@@ -37,29 +39,34 @@ function App() {
         if (value) localStorage.setItem('locale', JSON.stringify(value));
     };
     const isLoggedIn = useSelector(getIsLoggedIn());
-    const [shop, setShop] = useState(false);
-    const shopLoading = useSelector(getShopLoading());
-    useEffect(() => {
-        setShop(dispatch(getCurrentShop()));
-    }, [shopLoading])
-
+    const shop = getUserShop();
 
     const location = useLocation();
     return (
         <>
             <AppLoader>
+                {/* {shopLoading && */}
                 <IntlProvider messages={messages[currentLocale]} locale={currentLocale} defaultLocale={LOCALES.ENGLISH}>
                     <NavBar handleChange={handleChangeLang} shop={shop} isLoggedIn={isLoggedIn} />
                     <Routes>
                         <Route path="/" element={<MainPage locale={currentLocale} />} />
-                        <Route path="/autors" element={<AutorsPage />} />
-                        <Route path="/myshop" element={!isLoggedIn ? <Navigate to="/auth/login" state={{ referrer: location }} /> : shop ? <MyShopPage shop={shop} /> : <Navigate to="/create_myshop" state={{ referrer: location }} />} />
+                        <Route path="autors" element={<AutorsPage />} />
+                        <Route path="myshop">
+                            <Route index element={!isLoggedIn ? <Navigate to="/auth/login" state={{ referrer: location }} /> : shop ? <MyShopPage shop={shop} /> : <Navigate to="/create_myshop" state={{ referrer: location }} />} />
+                            {/* <Route path="products" element={<MyProductsPage shop={shop} />} > */}
+                            <Route path="products" >
+                                <Route index element={!isLoggedIn ? <Navigate to="/auth/login" state={{ referrer: location }} /> : shop ? <MyProductsPage shop={shop} /> : <Navigate to="/create_myshop" state={{ referrer: location }} />} />
+                                <Route path=":_id" element={<ProductPage />} />
+                            </Route>
+                        </Route>
+
                         <Route path="/create_myshop" element={!isLoggedIn ? <Navigate to="/auth/login" state={{ referrer: location }} /> : !shop ? <MyShopPage shop={shop} /> : <Navigate to="/myshop" state={{ referrer: location }} />} />
                         <Route path="auth/login" element={<Login />} />
                         <Route path="personalArea" element={isLoggedIn ? <PersonalArea /> : <Navigate to="/auth/login" state={{ referrer: location }} />} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                 </IntlProvider>
+                {/* } */}
             </AppLoader>
             <ToastContainer />
         </>

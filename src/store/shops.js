@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ShopService from "../services/shop.service";
 import { generateAuthError } from "../utils/generateAuthError";
+import localStorageService from "../services/localStorage.service";
 
 const initialState = {
     entities: null,
@@ -89,6 +90,7 @@ export const loadShopByIdUser = (id) => async (dispatch, getState) => {
     dispatch(shopRequested());
     try {
         const { content } = await ShopService.getShop(id);
+        localStorageService.setUserShop(content[0]._id);
         dispatch(shopReceved(content));
     } catch (error) {
         dispatch(shopRequestFiled(error.message));
@@ -98,7 +100,7 @@ export const logOutShop = () => (dispatch) => {
     dispatch(shopLogOut());
 };
 
-export const getCurrentShop = () => (state, dispatch) => dispatch(state).shops.entities;
+export const getCurrentShop = () => (state) => state.shops.entities;
 export const getShopLoading = () => (state, dispatch) => state.shops.isLoading;
 export const getShopErrors = () => (state) => state.shops.error;
 

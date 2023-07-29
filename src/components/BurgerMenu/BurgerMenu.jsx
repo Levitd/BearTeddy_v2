@@ -8,7 +8,7 @@ import useLogout from "../../hooks/useLogout";
 const BurgerMenu = ({ label = "burger_menu", isLoggedIn, shop }) => {
     const handleLogout = useLogout();
     return (
-        <div className={`${label} burger_menu_hidden w-80 h-full z-50 fixed right-0 top-0 bg-black/95 flex flex-col hidden`}>
+        <div className={`${label} text-lg burger_menu_hidden w-80 h-full z-50 fixed right-0 top-0 bg-black/95 flex flex-col hidden`}>
             <div className="flex flex-row flex-nowrap place-content-between">
                 <NavBarLogo
                     link='/'
@@ -29,12 +29,15 @@ const BurgerMenu = ({ label = "burger_menu", isLoggedIn, shop }) => {
                 <span className="pl-4 text-slate-700"><FormattedMessage id='personal_area' /></span>
                 <StyledBurgerLink show="pl-8" to='/personalArea'><FormattedMessage id='personal_data' /></StyledBurgerLink>
                 {shop &&
-                    <StyledBurgerLink show="pl-8" to='/myshop'><FormattedMessage id='shop_settings' /></StyledBurgerLink>
+                    <>
+                        <StyledBurgerLink show="pl-8" to='/myshop'><FormattedMessage id='shop_settings' /></StyledBurgerLink>
+                        <StyledBurgerLink show="pl-12" to='/myshop/products'><FormattedMessage id='my_works' /></StyledBurgerLink>
+                    </>
                 }
                 {!shop &&
                     <StyledBurgerLink show="pl-8" to='/create_myshop'><FormattedMessage id='create_shop' /></StyledBurgerLink>
                 }
-                <StyledBurgerLink onClick={handleLogout} show="pl-8" to=""><FormattedMessage id='logout' /></StyledBurgerLink>
+                <StyledBurgerLink onClick={handleLogout} show="pl-4" to=""><FormattedMessage id='logout' /></StyledBurgerLink>
             </>
             }
         </div>

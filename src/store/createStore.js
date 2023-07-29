@@ -1,8 +1,11 @@
 // import authReducer from "./authSlice";
+import activeProductsReducer from "./activeProduct";
+import autorProductsReducer from "./autorProducts";
 import messageReducer from "./messageSlice";
 import productReducer from "./products";
 import shopReducer from "./shops";
 import usersReducer from "./users";
+import viewedReducer from "./viewed";
 
 // import postsReducer from "./postsSlice";
 
@@ -13,7 +16,10 @@ const rootReducer = combineReducers({
     message: messageReducer,
     users: usersReducer,
     shops: shopReducer,
-    products: productReducer
+    products: productReducer,
+    viewed: viewedReducer,
+    autorsProducts: autorProductsReducer,
+    activeProduct: activeProductsReducer
 });
 
 export function createStore() {

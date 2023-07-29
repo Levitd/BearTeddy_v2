@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import StyledNavLink from "../StyledNavLink";
 import NavBarDropdown from "./NavBarDropdown";
 import NavBarWrapper from "./NavBarWrapper";
@@ -10,13 +9,13 @@ import { FormattedMessage } from "react-intl";
 import { Bars3Icon, MagnifyingGlassCircleIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid'
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 // import { getIsLoggedIn } from "../../store/users";
-import useLogout from "../../hooks/useLogout";
+// import useLogout from "../../hooks/useLogout";
 import { useLocation } from "react-router-dom";
 
 const NavBar = ({ handleChange, shop, isLoggedIn }) => {
     const currentPage = useLocation().pathname;
     // const isLoggedIn = useSelector(getIsLoggedIn());
-    const handleLogout = useLogout();
+    // const handleLogout = useLogout();
     const [activeSearch, setActiveSearch] = useState(false);
 
     const handleClickBurgerMenu = ({ target }) => {
@@ -55,7 +54,7 @@ const NavBar = ({ handleChange, shop, isLoggedIn }) => {
     };
     return (
         <>
-            <BurgerMenu handleClose={handleClickBurgerMenu} isLoggedIn={isLoggedIn} shop={shop} />
+            <BurgerMenu handleClose={handleClickBurgerMenu} isLoggedIn={isLoggedIn} shop={shop} activeSearch={activeSearch} />
             <NavBarWrapper>
                 <NavBarLogo
                     link='/'
@@ -76,7 +75,7 @@ const NavBar = ({ handleChange, shop, isLoggedIn }) => {
                     {isLoggedIn ? (
                         <>
                             <NavBarDropdown shop={shop} />
-                            <StyledNavLink to='/' styleType='button' show="hidden lg:block" onClick={handleLogout}><FormattedMessage id='logout' /> </StyledNavLink>
+                            {/* <StyledNavLink to='/' styleType='button' show="hidden lg:block" onClick={handleLogout}><FormattedMessage id='logout' /> </StyledNavLink> */}
                         </>
                     ) : (
                         <StyledNavLink to='/auth/login' styleType='button' show="hidden lg:block">

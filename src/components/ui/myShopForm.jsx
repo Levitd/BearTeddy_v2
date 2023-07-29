@@ -4,17 +4,19 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import MessageP from "../common/form/mesageP";
 import { getCurrentUserId } from "../../store/users";
-import { createShop, getShopErrors, updateShop } from "../../store/shops";
+import { createShop, getCurrentShop, getShopErrors, updateShop } from "../../store/shops";
 import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
 import { getDate } from "../../utils/util";
 import TextAreaField from "../common/form/textAreaField";
-import configFile from "../../config.json";
+import ImgFileld from "../common/form/img";
 
 const MyShopForm = ({ shop }) => {
-    const myShop = shop ? shop[0] : {};
     const dispatch = useDispatch();
     const user_id = useSelector(getCurrentUserId());
+    const myShopArray = useSelector(getCurrentShop());
+    const myShop = (myShopArray) ? myShopArray[0] : {};
+
     const [enterError, setEnterError] = useState(null);
     const shopError = useSelector(getShopErrors());
     const intl = useIntl();
@@ -29,7 +31,7 @@ const MyShopForm = ({ shop }) => {
                 aboutShop: "",
                 dateCreate: "",
                 country: "",
-                profile: ""
+                logo: ""
             }
             : {
                 _id: myShop._id,
@@ -39,13 +41,12 @@ const MyShopForm = ({ shop }) => {
                 aboutShop: myShop.aboutShop ? myShop.aboutShop : "",
                 dateCreate: myShop.dateCreate ? getDate(myShop.dateCreate) : getDate("today"),
                 country: myShop.country,
-                profile: myShop.profile
+                logo: myShop.logo
             }
 
     );
 
     const savedData = data;
-
     const validatorConfig = {
         name: {
             isRequired: {
@@ -88,7 +89,7 @@ const MyShopForm = ({ shop }) => {
             defaultData={shop ? savedData : data}
             recalculation={recalculation}
         >
-            <img src={configFile.imgProfilePath + savedData.profile} alt="" />
+            <ImgFileld path={"imgLogoPath"} file={savedData.logo} addClass={"h-32 w-auto mx-left mb-2 rounded-md"} />
             <TextField
                 label={<FormattedMessage id='name_of_shop' />}
                 name="name"

@@ -3,7 +3,7 @@ export function validator(data, config) {
     const errors = {};
     function validate(validateMethod, data, config) {
         if (!data) {
-            console.log(validateMethod, config, data);
+            // console.log(validateMethod, config, data);
             return;
         }
         // Поменял switch на if - eslint ругается на неправильное кол-во пробелов, пока не смог его правильно считать пробелы для switch

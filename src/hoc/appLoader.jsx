@@ -5,24 +5,26 @@ import PropTypes from "prop-types";
 import localStorageService from "../services/localStorage.service";
 import { loadShopByIdUser } from "../store/shops";
 import { getProductIsLoading, loadProducts } from "../store/products";
-// import { loadProducts } from "../store/products";
+import { loadViewedProductsByIdUser } from "../store/viewed";
+
 
 const AppLoader = ({ children }) => {
     const dispatch = useDispatch();
+
     const isLoggedIn = useSelector(getIsLoggedIn());
     const userStatusLoading = useSelector(getUsersLoadingStatus());
     const isLoadingProducts = useSelector(getProductIsLoading());
+
     if (!isLoadingProducts) dispatch(loadProducts());
     useEffect(() => {
         if (isLoggedIn) {
             const userId = localStorageService.getUserId();
             dispatch(loadUserById(userId));
             dispatch(loadShopByIdUser(userId));
-
+            dispatch(loadViewedProductsByIdUser(userId));
         }
     }, [isLoggedIn, dispatch]);
     if (userStatusLoading) return "Loading...";
-
     return children;
 };
 

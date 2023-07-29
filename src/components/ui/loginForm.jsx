@@ -67,7 +67,6 @@ const LoginForm = () => {
         const redirect = location.state
             ? location.state.referrer.pathname
             : "/";
-        console.log(redirect);
         // const redirect = "/"; // history.location.state ? history.location.state.from.pathname : "/";
         dispatch(logIn({ payload: data, redirect }));
         // .unwrap()

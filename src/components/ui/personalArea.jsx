@@ -11,9 +11,8 @@ import FormComponent, {
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { apdateUser, getCurrentUserData, getIsLoggedIn } from "../../store/users";
-import Title from "../title";
-// import history from "../../utils/history";
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
+import ImgFileld from "../common/form/img";
+import Page from "../page";
 
 const PersonalArea = () => {
     const intl = useIntl();
@@ -24,8 +23,7 @@ const PersonalArea = () => {
     let savedData;
 
     const isLoggedIn = useSelector(getIsLoggedIn());
-    // const auth = getAuth();
-    // const userActive = auth.currentUser;
+
     useEffect(() => {
         if (!isLoggedIn) {
             navigate("/not-registered");
@@ -85,62 +83,57 @@ const PersonalArea = () => {
     if (!isLoading && savedData) {
         // console.log(savedData);
         return (
-            <div className="max-w-lg my-5 px-5 p-5 mx-auto bg-state-300 rounded border-2 shadow-md">
-                <Title><FormattedMessage id='personal_data' /></Title>
-                <div className="row">
-                    <div
-                        className="col-xl-4 col-lg-4 col-md-6 col-sm-8 offset-md-3 offset-sm-2 offset-lg-4 offset-xl-4 p-4 shadow">
-                        <FormComponent onSubmit={handleSubmit}
-                            validatorConfig={validatorConfig}
-                            defaultData={savedData}
-                            recalculation={recalculation}
-                        >
-                            <TextField
-                                label={<FormattedMessage id='your_first_and_last_name' />}
-                                name="flName"
-                                autoFocus
-                            />
-                            <TextField
-                                label={<FormattedMessage id='email' />}
-                                name="email"
-                            />
-                            <TextField
-                                label={<FormattedMessage id='date_of_birth' />}
-                                name="dateOfBirth"
-                                type="date"
-                                max={today}
-                            />
-                            {/* <TextField
+            <Page widthScreen="max-w-lg my-5 px-5 p-5 mx-auto bg-state-300 rounded border-2 shadow-md" title={"personal_data"}>
+                <FormComponent onSubmit={handleSubmit}
+                    validatorConfig={validatorConfig}
+                    defaultData={savedData}
+                    recalculation={recalculation}
+                >
+                    <ImgFileld path="imgProfilePath" file={savedData.profile} addClass="h-32 w-auto mx-left mb-2 rounded-md" />
+                    <TextField
+                        label={<FormattedMessage id='your_first_and_last_name' />}
+                        name="flName"
+                        autoFocus
+                    />
+                    <TextField
+                        label={<FormattedMessage id='email' />}
+                        name="email"
+                    />
+                    <TextField
+                        label={<FormattedMessage id='date_of_birth' />}
+                        name="dateOfBirth"
+                        type="date"
+                        max={today}
+                    />
+                    {/* <TextField
                                 label={<FormattedMessage id='full_years' />}
                                 name="fullYears"
                                 readOnly="readonly"
                                 disabled={true}
                                 noValid={true}
                             /> */}
-                            <RadioField
-                                options={[
-                                    { name: <FormattedMessage id='male' />, value: "male", description: "" },
-                                    { name: <FormattedMessage id='female' />, value: "female", description: "" }
-                                ]}
-                                name="sex"
-                                label={<FormattedMessage id='choose_your_gender' />}
-                                valueDefault={savedData.sex}
-                            />
-                            <TextField
-                                label={<FormattedMessage id='your_telegram_profile' />}
-                                labelLeft={<i className="bi bi-telegram icon-size-big"></i>}
-                                type="text"
-                                name="telegram"
-                            />
-                            <SubmitCancelButton name="submitCancelButton">
-                                <ButtonField type="submit" name="submit" label="save_changes" />
-                                <ButtonField type="cancel" name="cancel" label="cancel_changes" />
-                            </SubmitCancelButton>
-                            {/* <MessageWindow label="data_saved" name="message" type="message" /> */}
-                        </FormComponent>
-                    </div>
-                </div>
-            </div>
+                    <RadioField
+                        options={[
+                            { name: <FormattedMessage id='male' />, value: "male", description: "" },
+                            { name: <FormattedMessage id='female' />, value: "female", description: "" }
+                        ]}
+                        name="sex"
+                        label={<FormattedMessage id='choose_your_gender' />}
+                        valueDefault={savedData.sex}
+                    />
+                    <TextField
+                        label={<FormattedMessage id='your_telegram_profile' />}
+                        labelLeft={<i className="bi bi-telegram icon-size-big"></i>}
+                        type="text"
+                        name="telegram"
+                    />
+                    <SubmitCancelButton name="submitCancelButton">
+                        <ButtonField type="submit" name="submit" label="save_changes" />
+                        <ButtonField type="cancel" name="cancel" label="cancel_changes" />
+                    </SubmitCancelButton>
+                    {/* <MessageWindow label="data_saved" name="message" type="message" /> */}
+                </FormComponent>
+            </Page>
         );
     }
     // if (!userActive) {

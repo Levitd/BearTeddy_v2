@@ -84,7 +84,19 @@ export const messages = {
         date_create: `Date created`,
         about_shop: `About shop`,
         country: `Country`,
-        country_required: `Country is required`
+        country_required: `Country is required`,
+        //products
+        my_works: `My works`,
+        shipping: `Shipping`,
+        order_info: `Ordering Information`,
+        ret_ref_policy: `Return and Refund Policy`,
+        payment_options: `Payment Options`,
+        recently_viewed: `Recently Viewed`,
+        more_from_autor: `More From Autor`,
+        //date_time
+        minute_ago_1: `minute ago`,
+        minute_ago_2: `minutes ago`,
+        minute_ago_5: `minutes ago`,
     },
     [LOCALES.RUSSIAN]: {
         accept: `Принять`,
@@ -168,6 +180,19 @@ export const messages = {
         date_create: `Дата создания`,
         about_shop: `О магазине`,
         country: `Страна`,
-        country_required: `Страна обязательна для заполнения`
+        country_required: `Страна обязательна для заполнения`,
+        //products
+        my_works: `Мои работы`,
+        shipping: `Стоимость доставки`,
+        order_info: `Информация по заказу`,
+        ret_ref_policy: `Политика возврата и возмещения`,
+        payment_options: `Способы оплаты`,
+        recently_viewed: `Недавно просмотренные`,
+        more_from_autor: `Больше от Автора`,
+        //date_time
+        minute_ago_1: `минуту назад`,
+        minute_ago_2: `минуты назад`,
+        minute_ago_5: `минут назад`,
+
     }
 }

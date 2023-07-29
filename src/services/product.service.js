@@ -28,6 +28,24 @@ const ProductService = {
         });
         return data;
     },
+    getProductsById: async (_id) => {
+        const { data } = await httpService.get(productEndpoint, {
+            params: {
+                orderBy: '"_id"',
+                equalTo: `"${_id}"`
+            }
+        });
+        return data;
+    },
+    getProductsByIdAutor: async (_id) => {
+        const { data } = await httpService.get(productEndpoint, {
+            params: {
+                orderBy: '"user_id"',
+                equalTo: `"${_id}"`
+            }
+        });
+        return data;
+    },
 };
 
 export default ProductService;

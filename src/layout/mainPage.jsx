@@ -5,6 +5,7 @@ import Page from "../components/page";
 // import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import InputSearch from "../components/inputSearch";
 import ProductList from "../components/ui/productList";
+import ViewedList from "../components/ui/viewedList";
 
 const MainPage = ({ locale }) => {
     const intl = useIntl()
@@ -59,6 +60,7 @@ const MainPage = ({ locale }) => {
                 </div>
             </Page>
             <ProductList />
+            <ViewedList title={"recently_viewed"} />
         </>
     );
 };

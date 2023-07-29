@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ProductService from "../services/product.service";
 import { generateAuthError } from "../utils/generateAuthError";
+import { orderBy } from "lodash";
 
 const initialState = {
     entities: null,
     isLoading: false,
     error: null,
-    dataLoaded: false
+    dataLoaded: false,
 };
 
 const productsSlice = createSlice({
@@ -15,6 +16,7 @@ const productsSlice = createSlice({
     reducers: {
         productRequested: (state) => {
             state.isLoading = true;
+            state.dataLoaded = false;
         },
         productCreated: (state, action) => {
             if (!Array.isArray(state.entities)) {
@@ -90,12 +92,35 @@ export const loadProducts = () => async (dispatch, getState) => {
         dispatch(productRequested());
         try {
             const { content } = await ProductService.getProducts();
-            dispatch(productReceved(content));
+            const orderContent = orderBy(content, "create", ['desc']);
+            dispatch(productReceved(orderContent));
         } catch (error) {
             dispatch(productRequestFiled(error.message));
         }
     }
 };
+// export const loadProductById = (id) => async (dispatch, getState) => {
+//     if (!dispatch(getActiveProductLoading())) {
+//         dispatch(productActiveRequested());
+//         try {
+//             const { content } = await ProductService.getProductsById(id);
+//             const orderContent = orderBy(content, "create", ['desc']);
+//             dispatch(activeProductReceved(orderContent));
+//         } catch (error) {
+//             dispatch(productRequestFiled(error.message));
+//         }
+//     }
+// };
+// //Todo
+// export const loadProductByIdAutor = (id) => async (dispatch, getState) => {
+//     dispatch(productActiveRequested());
+//     try {
+//         const { content } = await ProductService.getProductsByIdAutor(id);
+//         dispatch(activeProductReceved(content));
+//     } catch (error) {
+//         dispatch(productRequestFiled(error.message));
+//     }
+// };
 export const logOutProduct = () => (dispatch) => {
     dispatch(productLogOut());
 };
@@ -105,4 +130,6 @@ export const getProductLoading = () => (state, dispatch) => dispatch(state).prod
 export const getProductIsLoading = () => (state, dispatch) => state.products.dataLoaded;
 export const getProductList = () => (state, dispatch) => state.products.entities;
 
+// export const getActiveProductLoading = () => (state, dispatch) => dispatch(state).products.isLoadingActiveProduct;
+// export const getUserActiveProduct = () => (state, dispatch) => dispatch(state).products.activeProduct.user_id;
 export default productReducer;

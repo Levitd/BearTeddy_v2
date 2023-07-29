@@ -5,7 +5,7 @@ import localStorageService from "../services/localStorage.service";
 // import getRandomInt from "../utils/getRandomInt";
 import history from "../utils/history";
 import { generateAuthError } from "../utils/generateAuthError";
-import { logOutShop } from "./shops";
+import { loadShopByIdUser, logOutShop } from "./shops";
 
 const initialState = (localStorageService.getAccessToken())
     ? {
@@ -14,7 +14,8 @@ const initialState = (localStorageService.getAccessToken())
         error: null,
         auth: { userId: localStorageService.getUserId() },
         isloggedIn: true,
-        dataLoaded: false
+        dataLoaded: false,
+        createShop: ""
     }
     : {
         entities: null,
@@ -22,7 +23,8 @@ const initialState = (localStorageService.getAccessToken())
         error: null,
         auth: null,
         isloggedIn: false,
-        dataLoaded: false
+        dataLoaded: false,
+        createShop: false
     };
 
 const usersSlice = createSlice({
@@ -90,9 +92,12 @@ export const logIn = ({ payload, redirect }) => async (dispatch) => {
     dispatch(authRequested());
     try {
         const data = await authService.login({ email, password });
+        dispatch(loadShopByIdUser(data.localId));
         dispatch(authRequestSuccess({ userId: data.localId }));
         localStorageService.setTokens(data);
+        dispatch(loadShopByIdUser(data.localId));
         history.push(redirect);
+        // history.push("/");
     } catch (error) {
         const { code, message } = error.response.data.error;
         console.log(code, message);
@@ -195,5 +200,6 @@ export const getDataStatus = () => state => state.users.dataLoaded;
 export const getUsersLoadingStatus = () => state => state.users.isLoading;
 export const getCurrentUserId = () => state => state.users.auth.userId;
 export const getAuthErrors = () => (state) => state.users.error;
+export const getShopUser = () => (state) => state.users.error;
 
 export default usersReducer;
