@@ -198,7 +198,7 @@ export const getCurrentUserData = () => (state) => {
 export const getIsLoggedIn = () => state => state.users.isloggedIn;
 export const getDataStatus = () => state => state.users.dataLoaded;
 export const getUsersLoadingStatus = () => state => state.users.isLoading;
-export const getCurrentUserId = () => state => state.users.auth.userId;
+export const getCurrentUserId = () => state => state.users.auth?.userId;
 export const getAuthErrors = () => (state) => state.users.error;
 export const getShopUser = () => (state) => state.users.error;
 

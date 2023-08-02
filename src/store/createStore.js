@@ -1,4 +1,5 @@
 // import authReducer from "./authSlice";
+import activeAutorReducer from "./activeAutor";
 import activeProductsReducer from "./activeProduct";
 import autorProductsReducer from "./autorProducts";
 import messageReducer from "./messageSlice";
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     products: productReducer,
     viewed: viewedReducer,
     autorsProducts: autorProductsReducer,
-    activeProduct: activeProductsReducer
+    activeProduct: activeProductsReducer,
+    activeAutor: activeAutorReducer
 });
 
 export function createStore() {

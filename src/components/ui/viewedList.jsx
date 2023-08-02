@@ -5,11 +5,11 @@ import { FormattedRelativeTime } from "react-intl";
 import { getViewedProduct } from "../../services/localStorage.service";
 import { NavLink } from "react-router-dom";
 
-const ViewedList = ({ title }) => {
+const ViewedList = ({ title, addStyle }) => {
     const viewed = getViewedProduct();// useSelector(getViewedIdList())[0].products;
     if (viewed) {
         return (
-            <Page title={title} widthScreen="flex flex-row flex-wrap gap-5 mb-2">
+            <Page title={title} addStyle={addStyle} widthScreen="flex flex-row flex-wrap gap-5 mb-2" pageMargin="">
                 {
                     viewed.map((prod) => {
                         // console.log(prod);
@@ -18,7 +18,7 @@ const ViewedList = ({ title }) => {
                                 <div className="flex flex-col">
                                     <NavLink to={"/myshop/products/" + prod._id}>
                                         <img
-                                            src={configFile.imgPreviewPath + prod.img}
+                                            src={configFile.imgPreviewPath + prod.img[0]}
                                             className='inline-block w-32 sm:w-36 md:w-40 rounded-t-md h-auto border-2 shadow-inner'
                                             alt={`Prodict${prod.name}`}
                                         />

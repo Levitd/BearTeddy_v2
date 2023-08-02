@@ -54,6 +54,21 @@ export function getViewedProduct() {
     return JSON.parse(localStorage.getItem("viewed"));
 }
 // end Viewed
+//add file too fireBase
+export const uploadImageActiveProductStart = () => {
+    localStorage.setItem("uploadToFitebaseStart", JSON.stringify(true));
+    localStorage.setItem("uploadToFitebaseEnd", JSON.stringify(false));
+    localStorage.removeItem("uploadToFitebaseFiles");
+}
+export const uploadOneImageActiveProduct = (content) => {
+    const UploadArray = JSON.parse(localStorage.getItem("uploadToFitebaseFiles")) || [];
+    UploadArray.push(content);
+    localStorage.setItem("uploadToFitebaseFiles", JSON.stringify(UploadArray));
+}
+export const uploadImageActiveProductEnd = () => {
+    localStorage.setItem("uploadToFitebaseStart", JSON.stringify(false));
+    localStorage.setItem("uploadToFitebaseEnd", JSON.stringify(true));
+}
 
 export function removeAuthData() {
     localStorage.removeItem(USERID_KEY);

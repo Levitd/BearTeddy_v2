@@ -41,7 +41,11 @@ export const messages = {
         personal_data: `Personal Information`,
         your_first_and_last_name: `Your first and last name`,
         flName_is_required: `First and last name are required`,
+        name_is_required: `Name is required`,
         flName_must_be_at_least_2_characters: `First name and last name cannot be less than 2 characters`,
+        name_must_be_at_least_2_characters: `Name  cannot be less than 2 characters`,
+        name: `Name`,
+        autor: `Autor`,
         autors: `Autors`,
         male: `Male`,
         female: `Female`,
@@ -97,6 +101,11 @@ export const messages = {
         minute_ago_1: `minute ago`,
         minute_ago_2: `minutes ago`,
         minute_ago_5: `minutes ago`,
+        //
+        comments: `Comments`,
+        description: `Description`,
+        price: `Price`,
+        shipping: `Shipping`
     },
     [LOCALES.RUSSIAN]: {
         accept: `Принять`,
@@ -138,7 +147,11 @@ export const messages = {
         personal_data: `Личные данные`,
         your_first_and_last_name: `Ваше имя и фамилия`,
         flName_is_required: `Имя и фамилия обязательны для заполнения`,
+        name_is_required: `Название обязательно для заполения`,
         flName_must_be_at_least_2_characters: `Имя и фамилия не могут быть меньше 2 символов`,
+        name_must_be_at_least_2_characters: `Название не может быть меньше 2 символов`,
+        name: `Название`,
+        autor: `Автор`,
         autors: `Авторы`,
         male: `Мужской`,
         female: `Женский`,
@@ -193,6 +206,10 @@ export const messages = {
         minute_ago_1: `минуту назад`,
         minute_ago_2: `минуты назад`,
         minute_ago_5: `минут назад`,
-
+        //
+        comments: `Комментарии`,
+        description: `Описание`,
+        price: `Цена`,
+        shipping: `Доставка`
     }
 }

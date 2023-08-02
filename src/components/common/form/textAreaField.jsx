@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const TextAreaField = ({ label, name, value, onChange, error, noLable }) => {
+const TextAreaField = ({ label, name, value, onChange, error, noLable, rows = 3 }) => {
     const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
     };
@@ -18,7 +18,7 @@ const TextAreaField = ({ label, name, value, onChange, error, noLable }) => {
                 value={value}
                 onChange={handleChange}
                 className={getInputClasses()}
-                rows="3"
+                rows={rows}
             />
         </div>
     </div >);

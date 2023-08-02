@@ -6,6 +6,7 @@ import localStorageService from "../services/localStorage.service";
 import { loadShopByIdUser } from "../store/shops";
 import { getProductIsLoading, loadProducts } from "../store/products";
 import { loadViewedProductsByIdUser } from "../store/viewed";
+import SpinnerLader from "../components/SpinnerLoader";
 
 
 const AppLoader = ({ children }) => {
@@ -24,8 +25,15 @@ const AppLoader = ({ children }) => {
             dispatch(loadViewedProductsByIdUser(userId));
         }
     }, [isLoggedIn, dispatch]);
-    if (userStatusLoading) return "Loading...";
-    return children;
+    // if (userStatusLoading) return "Loading...";
+    return (
+        <>
+            {userStatusLoading && <SpinnerLader />}
+            {!userStatusLoading &&
+                children
+            }
+        </>
+    );
 };
 
 AppLoader.propTypes = {

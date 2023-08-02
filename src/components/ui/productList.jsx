@@ -12,7 +12,7 @@ const ProductList = ({ title }) => {
     const products = useSelector(getProductList());
     if (products) {
         return (
-            <Page title={title} widthScreen="flex flex-row flex-wrap gap-5 mb-20 lg:mb-2">
+            <Page title={title} widthScreen="flex flex-row flex-wrap gap-5 mt-2 mb-20 lg:mb-2">
                 {
                     products.map((prod) => {
                         // console.log(prod);
@@ -21,13 +21,16 @@ const ProductList = ({ title }) => {
                                 <div className="flex flex-col">
                                     <NavLink to={"/myshop/products/" + prod._id}>
                                         <img
-                                            src={configFile.imgPreviewPath + prod.img}
+                                            src={configFile.imgPreviewPath + prod.img[0]}
                                             className='inline-block w-32 sm:w-56 md:w-64 rounded-t-md h-auto border-2 shadow-inner'
                                             alt={`Prodict${prod.name}`}
                                         />
                                     </NavLink>
                                     <div className="px-2 bg-slate-100  rounded-b-md border-2 shadow-inner">
-                                        <p className="line-clamp-1 text-sm lg:text-base font-normal text-sky-800 text-center">{prod.name}</p>
+
+                                        <NavLink to={"/myshop/products/" + prod._id}>
+                                            <p className="line-clamp-1 text-sm lg:text-base font-normal text-sky-800 text-center hover:scale-125 transition-transform duration-300">{prod.name}</p>
+                                        </NavLink>
                                         <div className="block text-xs lg:text-sm font-medium text-pink-950 text-center">{"by TeddyRus"}</div>
                                         <div className="block text-xs lg:text-sm font-light text-slate-500 text-center">{prod.country}</div>
                                         <div className="block text-sm lg:text-base font-medium text-slate-700 text-center">{prod.price} USD</div>

@@ -41,26 +41,28 @@ const MainPage = ({ locale }) => {
     const filterStyle = "w-full lg:max-w-xs";
     return (
         <>
-            <Page>
-                <div className="main">
-                    <div className="flex flex-col lg:flex-row">
-                        <InputSearch name="search" placeholder={placeholder} />
-                        <div className="filters pe-2 py-2 hidden lg:flex flex-col lg:flex-row w-11/12 lg:w-full mx-auto justify-around flex-wrap sm:flex-nowrap flex-auto gap-2 place-content-stretch">
-                            <div className={filterStyle}>
-                                <ListBoxFilter list={listBay} locale={locale} />
-                            </div>
-                            <div className={filterStyle}>
-                                <ListBoxFilter list={listSize} locale={locale} />
-                            </div>
-                            <div className={filterStyle}>
-                                <ListBoxFilter list={listPrice} locale={locale} />
+            <div className="mb-20 lg:mb-0" >
+                <Page>
+                    <div className="main">
+                        <div className="flex flex-col lg:flex-row">
+                            <InputSearch name="search" placeholder={placeholder} />
+                            <div className="filters pe-2 py-2 hidden lg:flex flex-col lg:flex-row w-11/12 lg:w-full mx-auto justify-around flex-wrap sm:flex-nowrap flex-auto gap-2 place-content-stretch">
+                                <div className={filterStyle}>
+                                    <ListBoxFilter list={listBay} locale={locale} />
+                                </div>
+                                <div className={filterStyle}>
+                                    <ListBoxFilter list={listSize} locale={locale} />
+                                </div>
+                                <div className={filterStyle}>
+                                    <ListBoxFilter list={listPrice} locale={locale} />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </Page>
-            <ProductList />
-            <ViewedList title={"recently_viewed"} />
+                </Page>
+                <ProductList />
+                <ViewedList title={"recently_viewed"} />
+            </div>
         </>
     );
 };

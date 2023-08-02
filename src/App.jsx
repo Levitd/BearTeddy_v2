@@ -23,6 +23,7 @@ import MyShopPage from "./layout/myShopPage";
 import MyProductsPage from "./layout/myProductsPage";
 import { getUserShop } from "./services/localStorage.service";
 import ProductPage from "./layout/productPage";
+import ProductEdit from "./layout/productEdit";
 
 
 
@@ -57,6 +58,7 @@ function App() {
                             <Route path="products" >
                                 <Route index element={!isLoggedIn ? <Navigate to="/auth/login" state={{ referrer: location }} /> : shop ? <MyProductsPage shop={shop} /> : <Navigate to="/create_myshop" state={{ referrer: location }} />} />
                                 <Route path=":_id" element={<ProductPage />} />
+                                <Route path=":_id/edit" element={!isLoggedIn ? <Navigate to="/auth/login" state={{ referrer: location }} /> : <ProductEdit />} />
                             </Route>
                         </Route>
 

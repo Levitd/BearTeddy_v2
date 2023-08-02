@@ -19,7 +19,7 @@ const Login = ({ user }) => {
         setFormType(prevState => prevState === "register" ? "login" : "register");
     };
     return (
-        <Page widthScreen="max-w-lg">
+        <Page widthScreen="max-w-md mx-auto">
             {formType === "register"
                 ? <>
                     <Title><FormattedMessage id='registration' /></Title>

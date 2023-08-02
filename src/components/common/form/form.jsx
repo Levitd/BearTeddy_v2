@@ -60,7 +60,7 @@ const FormComponent = ({
         // console.log(childType);
         // console.log(child);
         let config = {};
-        // console.log(child.props, child.props.name, childType);
+        // console.log(child.props, child.props.name, childType, child.props.type);
         if (childType === "object") {
             // console.log(child.props.name);
             if (!child.props.name) {
