@@ -7,6 +7,7 @@ import { loadShopByIdUser } from "../store/shops";
 import { getProductIsLoading, loadProducts } from "../store/products";
 import { loadViewedProductsByIdUser } from "../store/viewed";
 import SpinnerLader from "../components/SpinnerLoader";
+import { loadAutorProducts } from "../store/autorProducts";
 
 
 const AppLoader = ({ children }) => {
@@ -23,6 +24,7 @@ const AppLoader = ({ children }) => {
             dispatch(loadUserById(userId));
             dispatch(loadShopByIdUser(userId));
             dispatch(loadViewedProductsByIdUser(userId));
+            dispatch(loadAutorProducts(userId));
         }
     }, [isLoggedIn, dispatch]);
     // if (userStatusLoading) return "Loading...";

@@ -1,9 +1,9 @@
 import React from "react";
 import ProductList from "../components/ui/productList";
 
-const MyProductsPage = () => {
+const MyProductsPage = ({ list }) => {
     return (
-        <ProductList title="my_works" />
+        <ProductList title="my_works" list={list} />
     );
 }
 

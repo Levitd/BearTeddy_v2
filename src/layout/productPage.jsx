@@ -68,12 +68,14 @@ const ProductPage = () => {
                                     </NavLink>
                                 </div>
                             }
-
-                            <img
-                                src={configFile.imgPreviewPath + activeProduct.img[0]}
+                            {activeProduct.image && activeProduct.image.length > 0 &&
+                                <img className="inline-block w-32 sm:w-56 md:w-64 rounded-md h-auto border-2 shadow-inner" src={`${configFile.imgPreviewPathFirebaseStorige}${activeProduct.image[0].name}?alt=media&token=${activeProduct.image[0].token}`} alt="" key={`activeProductImage_${activeProduct.image[0].name}`} />
+                            }
+                            {/* <img
+                                src={configFile.imgPreviewPathFirebaseStorige + activeProduct.img[0]}
                                 className='inline-block w-32 sm:w-56 md:w-64 rounded-md h-auto border-2 shadow-inner'
                                 alt={`Prodict${activeProduct.name}`}
-                            />
+                            /> */}
                         </div>
                         <div className="rounded-md h-auto border-2 shadow-inner bg-white text-blue-900  text-sm lg:text-base font-normal p-2 md:col-span-2 xl:col-span-3">
                             <p>{activeProduct.about}</p>

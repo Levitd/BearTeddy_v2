@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import ProductService from "../services/product.service";
 import { generateAuthError } from "../utils/generateAuthError";
 import { orderBy } from "lodash";
+import { DeleteFileInFireBaseStorage } from "../utils/filesToFromFirebaseStorage";
 
 const initialState = {
     entities: null,
@@ -78,10 +79,12 @@ export const createProduct = (payload, redirect) => async (dispatch) => {
     }
 };
 
-export const updateProduct = (payload) => async (dispatch, getState) => {
+export const updateProduct = (payload, nameFile) => async (dispatch, getState) => {
     try {
         const { content } = await ProductService.put(payload);
         dispatch(productUpdated(content));
+        if (nameFile) DeleteFileInFireBaseStorage(nameFile, "imgPreviewPath");
+
     } catch (error) {
         dispatch(productUpdatedFailed(error.message));
     }

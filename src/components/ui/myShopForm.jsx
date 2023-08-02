@@ -63,6 +63,35 @@ const MyShopForm = ({ shop }) => {
     const handleSubmit = (data) => {
         // aboutShop - value ????
         // data = { ...data, aboutShop: document.getElementsByName("aboutShop")[0].value };
+        const haveImage = data.image ? [...data.image] : [];
+        const files = document.querySelector(`#avatar`).files;
+        // if (files && files.length > 0) {
+        //     uploadImageActiveProductStart();
+        //     UploadFileToFireBaseStorage(files);
+        //     let upFiles = false;//localStorage.getItem("uploadToFitebaseEnd");
+        //     let i = 0
+        //     waitUp();
+        //     function waitUp() {
+        //         setTimeout(() => {
+        //             upFiles = JSON.parse(localStorage.getItem("uploadToFitebaseEnd"));
+        //             console.log(upFiles);
+        //             if (upFiles) {
+        //                 const newImage = JSON.parse(localStorage.getItem("uploadToFitebaseFiles"));
+        //                 newImage.map((ni) => {
+        //                     haveImage.push(ni);
+        //                 })
+        //                 data.image = { ...haveImage };
+        //                 console.log(data);
+        //                 UpLoad(data)
+        //             } else {
+        //                 waitUp();
+        //             }
+        //         }, 500)
+        //     }
+        // } else {
+        //     UpLoad(data);
+        // }
+
         if (myShop) {
             const answerData = dispatch(updateShop(data));
             if (answerData) toast.info(intl.messages["data_saved"]);
@@ -89,7 +118,11 @@ const MyShopForm = ({ shop }) => {
             defaultData={shop ? savedData : data}
             recalculation={recalculation}
         >
-            <ImgFileld path={"imgLogoPath"} file={savedData.logo} addClass={"h-32 w-auto mx-left mb-2 rounded-md"} />
+            <ImgFileld path="imgProfilePathFirebaseStorige" file={`${(savedData.image) ? savedData.image[0].name : "no-logo-icon.gif"}`} token={savedData.image ? savedData.image[0].token : "8c2dc400-eb84-4829-b8ab-f395633723f4"} addClass="h-32 w-auto mx-left mb-2 rounded-md" />
+            <input type="file"
+                id="avatar" name="avatar"
+                accept="image/png, image/jpeg"></input>
+
             <TextField
                 label={<FormattedMessage id='name_of_shop' />}
                 name="name"

@@ -16,7 +16,7 @@ import Login from "./layout/login";
 import withRedux from "./hoc/withRedux";
 import AppLoader from "./hoc/appLoader";
 import PersonalArea from "./components/ui/personalArea";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getIsLoggedIn } from "./store/users";
 import withRouter from "./hoc/withRouter";
 import MyShopPage from "./layout/myShopPage";
@@ -24,11 +24,13 @@ import MyProductsPage from "./layout/myProductsPage";
 import { getUserShop } from "./services/localStorage.service";
 import ProductPage from "./layout/productPage";
 import ProductEdit from "./layout/productEdit";
+import { getAutorsProductList } from "./store/autorProducts";
+import { getProductList } from "./store/products";
 
 
 
 function App() {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     function getInitialLocale() {
         const savedLocale = JSON.parse(localStorage.getItem('locale'));
         return savedLocale || LOCALES.ENGLISH;
@@ -56,7 +58,7 @@ function App() {
                             <Route index element={!isLoggedIn ? <Navigate to="/auth/login" state={{ referrer: location }} /> : shop ? <MyShopPage shop={shop} /> : <Navigate to="/create_myshop" state={{ referrer: location }} />} />
                             {/* <Route path="products" element={<MyProductsPage shop={shop} />} > */}
                             <Route path="products" >
-                                <Route index element={!isLoggedIn ? <Navigate to="/auth/login" state={{ referrer: location }} /> : shop ? <MyProductsPage shop={shop} /> : <Navigate to="/create_myshop" state={{ referrer: location }} />} />
+                                <Route index element={!isLoggedIn ? <Navigate to="/auth/login" state={{ referrer: location }} /> : shop ? <MyProductsPage shop={shop} list="autor" /> : <Navigate to="/create_myshop" state={{ referrer: location }} />} />
                                 <Route path=":_id" element={<ProductPage />} />
                                 <Route path=":_id/edit" element={!isLoggedIn ? <Navigate to="/auth/login" state={{ referrer: location }} /> : <ProductEdit />} />
                             </Route>

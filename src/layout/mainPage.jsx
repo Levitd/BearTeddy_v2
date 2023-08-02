@@ -60,7 +60,7 @@ const MainPage = ({ locale }) => {
                         </div>
                     </div>
                 </Page>
-                <ProductList />
+                <ProductList list="all" />
                 <ViewedList title={"recently_viewed"} />
             </div>
         </>

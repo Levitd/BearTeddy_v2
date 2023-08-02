@@ -10,15 +10,15 @@ const metadata = {
 };
 const storage = getStorage(app);
 
-const UpLoadFileToFBS = (file, i, all) => {
+const UpLoadFileToFBS = (file, i, all, path) => {
     const fileName = nanoid(10) + "_" + file.name;
-    const storageRef = ref(storage, "img/products/preview/" + fileName);
+    const storageRef = ref(storage, path + fileName);
     const uploadTask = uploadBytesResumable(storageRef, file, metadata);
     uploadTask.on('state_changed',
         (snapshot) => {
             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
+            console.log('Upload is ' + path + fileName + " " + progress + '% done');
             switch (snapshot.state) {
                 case 'paused':
                     console.log('Upload is paused');
@@ -51,7 +51,7 @@ const UpLoadFileToFBS = (file, i, all) => {
         () => {
             // Upload completed successfully, now we can get the download URL
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                console.log(i, all, { name: fileName, token: downloadURL.slice(downloadURL.indexOf('token') + 6) });
+                // console.log(i, all, { name: fileName, token: downloadURL.slice(downloadURL.indexOf('token') + 6) });
                 if (i === (all - 1)) {
                     uploadImageActiveProductEnd();
                 }
@@ -61,15 +61,15 @@ const UpLoadFileToFBS = (file, i, all) => {
     );
 };
 
-const UploadFileToFireBaseStorage = (files) => {
+export const UploadFileToFireBaseStorage = (files, path) => {
     for (let i = 0; i < files.length; i++) {
-        UpLoadFileToFBS(files[i], i, files.length);
+        UpLoadFileToFBS(files[i], i, files.length, configFile[path]);
     };
 }
 
-export function DeleteFileInFireBaseStorage(fileName) {
-    console.log("DeleteFileInFireBaseStorage", fileName);
-    const desertRef = ref(storage, "img/products/preview/" + fileName);
+export function DeleteFileInFireBaseStorage(fileName, path) {
+    console.log("DeleteFileInFireBaseStorage", fileName, configFile[path]);
+    const desertRef = ref(storage, configFile[path] + fileName);
     // return true;
     deleteObject(desertRef).then(() => {
         return true;
@@ -78,4 +78,3 @@ export function DeleteFileInFireBaseStorage(fileName) {
     });
 }
 
-export default UploadFileToFireBaseStorage;

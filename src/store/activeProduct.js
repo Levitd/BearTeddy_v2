@@ -33,13 +33,15 @@ const activeProductsSlice = createSlice({
         deleteFile: (state, action) => {
             console.log(state.entities.image, action.payload);
             state.entities.image = state.entities.image.filter((f) => f.name !== action.payload);
-
+        },
+        activeProductsUpdate: (state, action) => {
+            state.entities = action.payload;
         }
     }
 });
 
 const { reducer: activeProductsReducer, actions } = activeProductsSlice;
-const { deleteFile, clearData, activeProductsRequested, activeProductsReceved, activeProductRequestFiled } = actions;
+const { activeProductsUpdate, deleteFile, clearData, activeProductsRequested, activeProductsReceved, activeProductRequestFiled } = actions;
 
 export const loadActiveProducts = (id) => async (dispatch, getState) => {
     dispatch(activeProductsRequested());
@@ -52,10 +54,12 @@ export const loadActiveProducts = (id) => async (dispatch, getState) => {
 
 };
 export const deleteFileInActiveProduct = (fileName) => (dispatch, getState) => {
-    console.log(fileName);
     dispatch(deleteFile(fileName));
 }
-
+export const updateActiveProduct = (data) => (dispatch, getState) => {
+    console.log(data);
+    dispatch(activeProductsUpdate(data));
+}
 export const clearActivePageData = () => dispatch => {
     dispatch(clearData());
 }

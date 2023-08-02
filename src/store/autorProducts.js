@@ -40,7 +40,7 @@ export const loadAutorProducts = (id) => async (dispatch, getState) => {
         dispatch(autorProductRequestFiled(error.message));
     }
 };
-export const getAutorsProductList = () => (state) => state.autorsProducts.entities;
+export const getAutorsProductList = () => (state) => state.autorsProducts?.entities ? state.autorsProducts.entities : [];
 export const getAutorsProductLoaded = () => (state) => state.autorsProducts.dataLoaded;
 
 export default autorProductsReducer;

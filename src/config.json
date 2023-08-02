@@ -2,8 +2,9 @@
     "apiEndPoint":"https://bearteddy-263cb-default-rtdb.europe-west1.firebasedatabase.app/",
     "isFireBase":true,
     "imgPath":"/assets/img/",
-    "imgPreviewPath":"/assets/img/products/preview/",
+    "imgPreviewPath":"img/products/preview/",
     "imgPreviewPathFirebaseStorige":"https://firebasestorage.googleapis.com/v0/b/bearteddy-263cb.appspot.com/o/img%2Fproducts%2Fpreview%2F",
+    "imgProfilePathFirebaseStorige":"https://firebasestorage.googleapis.com/v0/b/bearteddy-263cb.appspot.com/o/img%2Fprofile%2F",
     "imgProfilePath":"/assets/img/profile/",
     "imgLogoPath":"/assets/img/profile/",
     "firebaseConfig" :

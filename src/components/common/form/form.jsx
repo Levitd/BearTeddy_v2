@@ -36,7 +36,7 @@ const FormComponent = ({
     useEffect(() => {
         if (Object.keys(data).length > 0) {
             validate(data);
-            recalculation(data);
+            recalculation(data, setData);
         }
     }, [data, validate, recalculation]);
     const handleCancel = (e) => {

@@ -8,6 +8,7 @@ import StyledNavLink from "../StyledNavLink";
 import useLogout from "../../hooks/useLogout";
 import configFile from "../../config.json";
 import SpinnerLader from "../SpinnerLoader";
+import ImgFileld from "../common/form/img";
 
 // function classNames(...classes) {
 //     return classes.filter(Boolean).join(" ");
@@ -22,11 +23,13 @@ const NavBarDropdown = ({ shop }) => {
             {user &&
                 <Menu as='div' className='relative border-l-2 hidden lg:block'>
                     <Menu.Button className='flex items-center w-full rounded-md px-4 py-2 text-lg font-medium text-gray-700 hover:text-blue-500 focus:outline-none '>
-                        <img
+                        <ImgFileld path="imgProfilePathFirebaseStorige" file={`${(user.image) ? user.image[0].name : "no-image-icon.png"}`} token={user.image ? user.image[0].token : "f7499845-a9dc-49f5-80ff-bb444a933d15"} addClass="inline-block h-8 rounded-xl pr-2 w-auto" />
+
+                        {/* <img
                             src={configFile.imgProfilePath + user.profile}
                             className='inline-block h-6 rounded-xl pr-2 w-auto'
                             alt='Logo'
-                        />
+                        /> */}
                         <FormattedMessage id='personal_area' />
                         <ChevronDownIcon
                             className='-mr-1 ml-2 h-5 w-5'

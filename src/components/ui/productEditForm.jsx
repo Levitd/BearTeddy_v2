@@ -6,19 +6,21 @@ import TextField from "../common/form/textField";
 import TextAreaField from "../common/form/textAreaField";
 import { updateProduct } from "../../store/products";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import configFile from "../../config.json";
-import UploadFileToFireBaseStorage, { DeleteFileInFireBaseStorage } from "../../utils/UploadFileToFirebaseStorage";
+import { UploadFileToFireBaseStorage } from "../../utils/filesToFromFirebaseStorage";
 import { uploadImageActiveProductStart } from "../../services/localStorage.service";
 import { useNavigate } from "react-router-dom";
 import { TrashIcon } from '@heroicons/react/24/solid';
-import { deleteFileInActiveProduct } from "../../store/activeProduct";
+import { deleteFileInActiveProduct, updateActiveProduct } from "../../store/activeProduct";
+import { data } from "autoprefixer";
 
 const ProductEditForm = ({ path, currentUser, param, productId, activeProduct }) => {
     const intl = useIntl();
     const dispatch = useDispatch();
     const savedData = { ...activeProduct };
     const navigate = useNavigate();
+    let newAP = { ...savedData };
 
     const validatorConfig = {
         name: {
@@ -44,26 +46,27 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
     };
 
     const handleSubmit = (data) => {
-        console.log(data);
         const haveImage = data.image ? [...data.image] : [];
-        console.log(haveImage);
+
+        console.log(haveImage)
         const files = document.querySelector(`#avatar`).files;
+
         if (files && files.length > 0) {
             uploadImageActiveProductStart();
-            UploadFileToFireBaseStorage(files);
+            UploadFileToFireBaseStorage(files, "imgPreviewPath");
             let upFiles = false;//localStorage.getItem("uploadToFitebaseEnd");
             let i = 0
             waitUp();
             function waitUp() {
                 setTimeout(() => {
                     upFiles = JSON.parse(localStorage.getItem("uploadToFitebaseEnd"));
-                    console.log(upFiles);
                     if (upFiles) {
                         const newImage = JSON.parse(localStorage.getItem("uploadToFitebaseFiles"));
                         newImage.map((ni) => {
                             haveImage.push(ni);
                         })
-                        data.image = { ...haveImage };
+                        data.image = [...haveImage];
+                        savedData.image = [...haveImage];
                         console.log(data);
                         UpLoad(data)
                     } else {
@@ -77,32 +80,32 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
     };
     function UpLoad(data) {
         dispatch(updateProduct(data));
+        dispatch(updateActiveProduct(data));
+        toast.info(intl.messages["data_saved"]);
         navigate(-1);
     };
-    const recalculation = (data) => {
+    const recalculation = (data, setData) => {
+        if (newAP.image !== data.image) {
+            setData({ ...data, image: newAP.image });
+        }
     };
 
     const HandleTrash = (e) => {
         let el = e.target.parentNode;
         if (el.tagName === "svg") el = el.parentNode;
-        const deletedFile = DeleteFileInFireBaseStorage(el.id);
-        console.log(deletedFile);
-        // if (deletedFile) {
+
         let images = [];
         activeProduct.image.map((f) => {
             if (f.name !== el.id) images.push(f);
         });
-        const newAP = { ...activeProduct, image: images }
-        console.log(newAP);
+        newAP = { ...activeProduct, image: images }
         dispatch(deleteFileInActiveProduct(el.id));
-        dispatch(updateProduct(newAP));
-        // }
+        dispatch(updateProduct(newAP, el.id));
     }
 
     const firebaseStorigeUrl = configFile.imgPreviewPathFirebaseStorige;
     //
-    const images = activeProduct.image
-    console.log(images);
+    const images = (activeProduct.image) ? activeProduct.image : [];
     return (
         <Page title={activeProduct.name} noTranslate={true} widthScreen="w-full my-5 px-5 p-5 mx-auto bg-state-300 rounded border-2 shadow-md">
             <div className="flex flex-col lg:flex-row gap-5 relative">
@@ -111,8 +114,8 @@ const ProductEditForm = ({ path, currentUser, param, productId, activeProduct })
                         {images && images.map((p) => {
                             return (
                                 <div key={`div_${p.name}`} className="relative">
-                                    <button onClick={HandleTrash} id={p.name}>
-                                        <TrashIcon className="h-12 w-12 text-red-300 hover:text-red-800 pb-2 absolute left-3 top-5 cursor-pointer hover:scale-150 transition-transform duration-300" key={`trash_${p.name}`} />
+                                    <button onClick={HandleTrash} id={p.name} >
+                                        <TrashIcon className="bg-white h-12 w-12 text-red-400 hover:text-red-800 absolute left-4 top-10 cursor-pointer hover:scale-150 transition-transform duration-300" key={`trash_${p.name}`} />
                                     </button>
                                     <img src={`${firebaseStorigeUrl}${p.name}?alt=media&token=${p.token}`} alt="" key={`activeProductImage_${p.name}`} />
                                 </div>

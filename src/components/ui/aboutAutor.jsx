@@ -24,8 +24,6 @@ const AboutAutor = ({ title, addStyle }) => {
         if (autor) setLoad(true);
     }, [load, autor]);
 
-    console.log(autor);
-    // if (!products) return "Loading...";
     return (
         <>
             {!autor && <SpinnerLader />}

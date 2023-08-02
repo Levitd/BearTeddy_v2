@@ -7,24 +7,32 @@ import configFile from "../../config.json";
 import { FormattedDate, FormattedRelativeTime } from "react-intl";
 import { HeartIcon } from '@heroicons/react/24/solid';
 import { NavLink } from "react-router-dom";
+import { getAutorsProductList } from "../../store/autorProducts";
 
-const ProductList = ({ title }) => {
-    const products = useSelector(getProductList());
+const ProductList = ({ title, list }) => {
+
+    const products_list = useSelector(getProductList());
+    const products_autor = useSelector(getAutorsProductList());
+    const products = (list === "autor") ? products_autor : products_list;
     if (products) {
         return (
             <Page title={title} widthScreen="flex flex-row flex-wrap gap-5 mt-2 mb-20 lg:mb-2">
                 {
                     products.map((prod) => {
                         // console.log(prod);
+                        const firebaseStorigeUrl = configFile.imgPreviewPathFirebaseStorige;
                         return (
-                            <div key={prod._id} className="w-32 sm:w-56 md:w-64 mx-auto">
-                                <div className="flex flex-col">
+                            <div key={prod._id} className="w-40 sm:w-56 md:w-64 mx-auto">
+                                <div className="flex flex-col w-full">
                                     <NavLink to={"/myshop/products/" + prod._id}>
-                                        <img
+                                        <div className="w-40 h-60 sm:w-56 sm:h-80 md:w-64 md:h-96 ">
+                                            <img className="inline-block rounded-t-md h-auto border-2 shadow-inner" src={`${firebaseStorigeUrl}${prod.image[0].name}?alt=media&token=${prod.image[0].token}`} alt="" key={`activeProductImage_${prod.image[0].name}`} />
+                                        </div>
+                                        {/* <img
                                             src={configFile.imgPreviewPath + prod.img[0]}
                                             className='inline-block w-32 sm:w-56 md:w-64 rounded-t-md h-auto border-2 shadow-inner'
                                             alt={`Prodict${prod.name}`}
-                                        />
+                                        /> */}
                                     </NavLink>
                                     <div className="px-2 bg-slate-100  rounded-b-md border-2 shadow-inner">
 

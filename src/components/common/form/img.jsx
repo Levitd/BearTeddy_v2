@@ -1,9 +1,9 @@
 import React from "react";
 import configFile from "../../../config.json";
 
-const ImgFileld = ({ path, file, addClass }) => {
+const ImgFileld = ({ path, file, addClass, token }) => {
     return (
-        <img src={configFile[path] + file} alt="file" className={addClass} />
+        <img src={configFile[path] + file + (token ? `?alt=media&token=${token}` : "")} alt="file" className={addClass} />
     );
 }
 
